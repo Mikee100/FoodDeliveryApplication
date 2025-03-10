@@ -14,6 +14,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.fooddeliveryapplication.screens.HomeScreen
+import com.example.fooddeliveryapplication.screens.MealDetailsScreen
+import com.example.fooddeliveryapplication.screens.OrderStatusScreen
 import com.example.fooddeliveryapplication.screens.RestaurantCard
 import com.example.fooddeliveryapplication.screens.RestaurantDetailsScreen
 
@@ -36,9 +38,17 @@ class MainActivity : ComponentActivity() {
 
                         // Define the RestaurantDetailsScreen route
                         composable("restaurantDetails/{restaurantId}") { backStackEntry ->
-                            // Extract the restaurantId from the route
                             val restaurantId = backStackEntry.arguments?.getString("restaurantId")
-                            RestaurantDetailsScreen(restaurantId = restaurantId)
+                            RestaurantDetailsScreen(restaurantId = restaurantId, navController = navController)
+                        }
+                        composable("orderStatus/{orderId}") { backStackEntry ->
+                            val orderId = backStackEntry.arguments?.getString("orderId")
+                            OrderStatusScreen(orderId = orderId , navController=navController)
+                        }
+
+                        composable("mealDetails/{mealId}") { backStackEntry ->
+                            val mealId = backStackEntry.arguments?.getString("mealId")
+                            MealDetailsScreen(navController = navController, mealId = mealId)
                         }
                     }
                 }

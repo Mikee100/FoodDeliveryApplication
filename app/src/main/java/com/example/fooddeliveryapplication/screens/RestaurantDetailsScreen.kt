@@ -1,6 +1,7 @@
 package com.example.fooddeliveryapplication.screens
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -17,9 +18,10 @@ import com.example.fooddeliveryapplication.data.model.Meal
 import com.example.fooddeliveryapplication.data.model.Restaurant
 import com.example.fooddeliveryapplication.data.model.RetrofitClient
 import kotlinx.coroutines.launch
+import androidx.navigation.NavController
 
 @Composable
-fun RestaurantDetailsScreen(restaurantId: String?) {
+fun RestaurantDetailsScreen(restaurantId: String?, navController: NavController) {
     var restaurant by remember { mutableStateOf<Restaurant?>(null) }
     var meals by remember { mutableStateOf<List<Meal>>(emptyList()) }
     var loading by remember { mutableStateOf(true) }
@@ -58,6 +60,7 @@ fun RestaurantDetailsScreen(restaurantId: String?) {
         // Display restaurant details and meals
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             item {
+
                 // Restaurant Image
                 if (!restaurant?.image.isNullOrEmpty()) {
                     Image(
@@ -99,19 +102,23 @@ fun RestaurantDetailsScreen(restaurantId: String?) {
 
             // Display meals
             items(meals) { meal ->
-                MealItem(meal = meal)
+                MealItem(meal = meal, navController = navController)
                 Spacer(modifier = Modifier.height(8.dp))
             }
+
         }
     }
 }
 
 @Composable
-fun MealItem(meal: Meal) {
+fun MealItem(meal: Meal, navController: NavController) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .clickable {
+                navController.navigate("mealDetails/${meal.id}")
+            },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {

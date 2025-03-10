@@ -4,6 +4,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import android.util.Log
+import retrofit2.Response
 import retrofit2.http.Path
 
 // Define the API service
@@ -16,6 +17,12 @@ interface RestaurantApiService {
 
     @GET("api/restaurants/{id}/meals")
     suspend fun getRestaurantMeals(@Path("id") id: String): List<Meal>
+
+    @GET("api/meals/{id}")
+    suspend fun getMealDetails(@Path("id") id: String): Meal
+
+    @GET("api/orders/{orderId}")
+    suspend fun getOrderDetails(@Path("orderId") orderId: String): Response<Order>
 }
 
 // Create a Retrofit instance
