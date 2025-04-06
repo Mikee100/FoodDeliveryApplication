@@ -43,7 +43,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("orderStatus/{orderId}") { backStackEntry ->
                             val orderId = backStackEntry.arguments?.getString("orderId")
-                            OrderStatusScreen(orderId = orderId , navController=navController)
+                            OrderStatusScreen(navController, orderId)
                         }
 
                         composable("mealDetails/{mealId}") { backStackEntry ->

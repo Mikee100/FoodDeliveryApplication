@@ -5,6 +5,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import android.util.Log
 import retrofit2.Response
+import retrofit2.http.Body
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 // Define the API service
@@ -19,15 +21,28 @@ interface RestaurantApiService {
     suspend fun getRestaurantMeals(@Path("id") id: String): List<Meal>
 
     @GET("api/meals/{id}")
-    suspend fun getMealDetails(@Path("id") id: String): Meal
+    suspend fun getMealDetails(@Path("id") id: String): MealResponse
 
     @GET("api/orders/{orderId}")
     suspend fun getOrderDetails(@Path("orderId") orderId: String): Response<Order>
+
+    companion object
+
+    @POST("api/orders")
+    suspend fun submitOrder(
+        @Body orderRequest: OrderRequest
+    ): Response<OrderResponse>
+
+    @POST("api/mpesa")
+    suspend fun processMpesaPayment(
+        @Body paymentRequest: MpesaPaymentRequest
+    ): Response<MpesaPaymentResponse>
+
 }
 
 // Create a Retrofit instance
 object RetrofitClient {
-    private const val BASE_URL = "http://192.168.246.75:3000/" // Replace with your server IP
+    private const val BASE_URL = "http://192.168.158.75:3000/" // Replace with your server IP
     private const val TAG = "RetrofitClient" // Tag for logging
 
     val instance: RestaurantApiService by lazy {
